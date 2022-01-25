@@ -8,8 +8,38 @@
 import SwiftUI
 
 struct TipsList: View {
+    
+    // This view has its own source of truth
+    let tips: [Tip]
+    
     var body: some View {
-        Text("Hello, TipsList View!")
+        
+        List(tips, id: \.text) { tip in
+            
+            // If there are any children in this particular tip... 
+            if tip.children != nil {
+                Label(tip.text, systemImage: "quote.bubble")
+            } else {
+            
+                Text(tip.text)
+            
+            }
+        }
+        
+    }
+    
+    // Initializer pulls tips from the JSON file
+    // Populates the array
+    init() {
+        
+        // Get a pointer to the file
+        let url = Bundle.main.url(forResource: "tips", withExtension: "json")!
+        
+        // Load the contents of the JSON file
+        let data = try! Data(contentsOf: url)
+        
+        // Convert the data from the JSON file into the array
+        tips = try! JSONDecoder().decode([Tip].self, from: data)
     }
 }
 
