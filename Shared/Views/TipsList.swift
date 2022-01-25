@@ -14,9 +14,9 @@ struct TipsList: View {
     
     var body: some View {
         
-        List(tips, id: \.text) { tip in
+        List(tips, id: \.text, children: \.children) { tip in
             
-            // If there are any children in this particular tip... 
+            // If there are any children in this particular tip...
             if tip.children != nil {
                 Label(tip.text, systemImage: "quote.bubble")
             } else {
